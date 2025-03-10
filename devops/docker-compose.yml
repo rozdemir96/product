@@ -1,0 +1,46 @@
+services:
+  product-db:
+    container_name: product-db-container
+    image: postgres:16
+    environment:
+      POSTGRES_USER: productUser
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: PRODUCT
+    ports:
+      - "5435:5432"
+    networks:
+      product-net:
+        ipv4_address: 162.25.0.5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Veri kaybını önlemek için volume kullanıyoruz
+
+  product-backend:
+    container_name: product-backend-container
+    image: product-backend:latest  # bootBuildImage ile oluşturduğun image'ı kullanıyor
+    ports:
+      - "5555:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/PRODUCT
+      SPRING_DATASOURCE_USERNAME: productUser
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_LIQUIBASE_ENABLED: "false"
+      APP_LOAD_TEST_DATA: "false"  # Test verilerini yüklemesi için
+      JWT_SECRET: "c2VsYW1sYXJsYW5uYWJlcml5aW1pc2ludGFtYW1vaweq432ds32cxsd3235gdfwxsr23cxsdf2hgvb315v55GFsZGU"
+      JWT_EXPIRATION: "3600000"
+    depends_on:
+      - product-db  # Önce veritabanı ayağa kalkmalı
+    networks:
+      product-net:
+        ipv4_address: 162.25.0.10
+
+networks:
+  product-net:
+    name: product-net
+    ipam:
+      driver: default
+      config:
+        - subnet: 162.25.0.0/16
+          gateway: 162.25.0.1
+
+volumes:
+  postgres-data:

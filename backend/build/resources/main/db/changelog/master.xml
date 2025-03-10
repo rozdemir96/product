@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0" author="recep.ozdemir">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_user_id" type="BIGINT"/>
+            <column name="updated_user_id" type="BIGINT"/>
+            <column name="deleted_user_id" type="BIGINT"/>
+            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="deleted_date" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="surname" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="mobile_phone" type="VARCHAR(20)"/>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(100)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="enabled" type="BOOLEAN" defaultValue="true"/>
+            <column name="role" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1" author="recep.ozdemir">
+        <createTable tableName="products">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_user_id" type="BIGINT"/>
+            <column name="updated_user_id" type="BIGINT"/>
+            <column name="deleted_user_id" type="BIGINT"/>
+            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="deleted_date" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="TEXT"/>
+            <column name="price" type="DECIMAL(10,2)"/>
+            <column name="stock" type="INTEGER"/>
+            <column name="type" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="recep.ozdemir">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_user_id" type="BIGINT"/>
+            <column name="updated_user_id" type="BIGINT"/>
+            <column name="deleted_user_id" type="BIGINT"/>
+            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="deleted_date" type="TIMESTAMP"/>
+            <column name="order_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="payment_status" type="VARCHAR(50)"/>
+            <column name="total_price" type="DECIMAL(10,2)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_orders_user" referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="recep.ozdemir">
+        <createTable tableName="order_items">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_user_id" type="BIGINT"/>
+            <column name="updated_user_id" type="BIGINT"/>
+            <column name="deleted_user_id" type="BIGINT"/>
+            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="deleted_date" type="TIMESTAMP"/>
+            <column name="quantity" type="INTEGER"/>
+            <column name="price_at_purchase" type="DECIMAL(10,2)"/>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_order_items_order" referencedTableName="orders" referencedColumnNames="id"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_order_items_product" referencedTableName="products" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

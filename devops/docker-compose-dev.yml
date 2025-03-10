@@ -1,0 +1,22 @@
+services:
+  product-db:
+    container_name: product-db-container
+    image: postgres:16
+    environment:
+      POSTGRES_USER: productUser
+      POSTGRES_PASSWORD : 12345
+      POSTGRES_DB: PRODUCT_DEV
+    ports:
+      - "5435:5432"
+    networks:
+      product-net:
+        ipv4_address: 162.25.0.5    
+
+networks:
+  product-net:
+    name: product-net
+    ipam:
+      driver: default
+      config:
+        - subnet: 162.25.0.0/16
+          gateway: 162.25.0.1

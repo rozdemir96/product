@@ -77,7 +77,7 @@ public class UserController {
     /**
      * Kullanıcıyı ID’ye göre silme
      */
-    @DeleteMapping("/deletel/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();

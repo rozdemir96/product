@@ -1,4 +1,7 @@
+version: '3.8'
+
 services:
+  # PostgreSQL Database
   product-db:
     container_name: product-db
     image: postgres:16
@@ -12,6 +15,7 @@ services:
       product-net:
         ipv4_address: 162.25.0.5
 
+  # Spring Boot Backend
   product-backend:
     container_name: product-backend
     image: product-backend:latest  # bootBuildImage ile oluşturduğun image'ı kullanıyor
@@ -31,6 +35,20 @@ services:
       product-net:
         ipv4_address: 162.25.0.10
 
+  # Angular Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: product-ui
+    ports:
+      - "4200:80"
+    networks:
+      product-net:
+        ipv4_address: 162.25.0.20
+    depends_on:
+      - product-backend  # Backend'in ayağa kalkmasını bekler
+
 networks:
   product-net:
     name: product-net
@@ -39,6 +57,3 @@ networks:
       config:
         - subnet: 162.25.0.0/16
           gateway: 162.25.0.1
-
-volumes:
-  postgres-data:

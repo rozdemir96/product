@@ -1,0 +1,112 @@
+<div class="card">
+  <p-toast></p-toast>
+  
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Ürün Detayları</h2>
+    <div class="flex gap-2">
+      <p-button 
+        label="Listeye Dön" 
+        icon="pi pi-arrow-left" 
+        styleClass="p-button-outlined p-button-secondary" 
+        (onClick)="backToList()"
+        pTooltip="Ürün listesine geri dön"
+        tooltipPosition="top"
+      ></p-button>
+      <p-button 
+        *ngIf="canEditProduct()"
+        label="Düzenle" 
+        icon="pi pi-pencil" 
+        styleClass="p-button-outlined p-button-primary"
+        (onClick)="editProduct()"
+        pTooltip="Bu ürünü düzenle"
+        tooltipPosition="top"
+      ></p-button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="flex justify-center p-4">
+    <i class="pi pi-spin pi-spinner text-4xl"></i>
+  </div>
+
+  <div *ngIf="!loading && product" class="product-detail-container">
+    <div class="product-info-card">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Temel Bilgiler</h3>
+          <div class="mb-4">
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">ID:</span>
+              <span>{{ product.id }}</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Adı:</span>
+              <span>{{ product.name }}</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Tür:</span>
+              <p-tag 
+                [value]="getProductTypeLabel(product.type)" 
+                [severity]="getProductTypeSeverity(product.type)"
+              ></p-tag>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Envanter Bilgileri</h3>
+          <div class="mb-4">
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Fiyat:</span>
+              <span>{{ product.price }} ₺</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Stok:</span>
+              <span>{{ product.stock }}</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Oluşturulma Tarihi:</span>
+              <span>{{ product.createdDate | date:'dd MMMM yyyy HH:mm':'':'tr' }}</span>
+            </div>
+            <div class="flex justify-between py-2 border-b">
+              <span class="font-medium">Son Güncelleme:</span>
+              <span>{{ product.updatedDate | date:'dd MMMM yyyy HH:mm':'':'tr' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h3 class="text-lg font-semibold mb-2">Açıklama</h3>
+        <p class="whitespace-pre-line">{{ product.description }}</p>
+      </div>
+
+      <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-4">Sepete Ekle</h3>
+        <div class="cart-actions">
+          <div class="quantity-container">
+            <label for="quantity" class="block mb-2 font-medium">Miktar</label>
+            <p-inputNumber 
+              [(ngModel)]="quantity" 
+              [showButtons]="true" 
+              [min]="1" 
+              [max]="product.stock || 100"
+              class="quantity-input"
+            ></p-inputNumber>
+          </div>
+          <div class="add-to-cart-container">
+            <p-button 
+              label="Sepete Ekle" 
+              icon="pi pi-shopping-cart" 
+              styleClass="p-button-primary add-to-cart-button" 
+              (onClick)="addToCart()"
+              [disabled]="!product.stock || product.stock <= 0"
+            ></p-button>
+          </div>
+        </div>
+        <div *ngIf="!product.stock || product.stock <= 0" class="mt-2 text-red-500">
+          Bu ürün stokta yok.
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

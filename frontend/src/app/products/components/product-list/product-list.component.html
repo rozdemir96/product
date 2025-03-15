@@ -1,0 +1,115 @@
+<div class="card">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Ürünler</h2>
+    <div class="flex gap-2">
+      <p-button 
+        *ngIf="canEditOrDelete()"
+        label="Yeni Ürün Ekle" 
+        icon="pi pi-plus" 
+        (onClick)="createProduct()"
+      ></p-button>
+      <ng-container *ngIf="canAddToCart()">
+        <p-button 
+          label="Sipariş Ver" 
+          icon="pi pi-shopping-cart" 
+          styleClass="p-button-success"
+          (onClick)="router.navigate(['/orders/checkout'])"
+        ></p-button>
+        
+        <p-button 
+          label="Sepeti Görüntüle" 
+          icon="pi pi-shopping-cart" 
+          styleClass="p-button-outlined p-button-secondary"
+          (onClick)="router.navigate(['/orders/cart'])"
+        ></p-button>
+      </ng-container>
+    </div>
+  </div>
+
+  <p-table 
+    [value]="products" 
+    [paginator]="true" 
+    [rows]="10"
+    [totalRecords]="products.length"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} - {last} / {totalRecords} ürün gösteriliyor"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    [loading]="loading"
+    styleClass="p-datatable-striped w-full"
+    [tableStyle]="{'min-width': '100%'}"
+    [lazy]="false"
+    (onPage)="onPageChange($event)"
+    [first]="first"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 5%">#</th>
+        <th>Ürün Adı</th>
+        <th>Tür</th>
+        <th>Fiyat</th>
+        <th>Stok</th>
+        <th style="width: 150px">İşlemler</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ first + rowIndex + 1 }}</td>
+        <td>{{ product.name }}</td>
+        <td>
+          <p-tag 
+            [value]="getProductTypeLabel(product.type)" 
+            [severity]="getProductTypeSeverity(product.type)"
+          ></p-tag>
+        </td>
+        <td>{{ product.price.toFixed(2) }} ₺</td>
+        <td>{{ product.stock }}</td>
+        <td>
+          <div class="action-buttons">
+            <p-button 
+              icon="pi pi-eye" 
+              styleClass="p-button-outlined p-button-rounded p-button-info p-button-sm" 
+              (onClick)="viewProduct(product)"
+              pTooltip="Detayları Görüntüle"
+              tooltipPosition="top"
+            ></p-button>
+            <p-button 
+              *ngIf="canEditOrDelete()"
+              icon="pi pi-pencil" 
+              styleClass="p-button-outlined p-button-rounded p-button-success p-button-sm" 
+              (onClick)="editProduct(product)"
+              pTooltip="Düzenle"
+              tooltipPosition="top"
+            ></p-button>
+            <p-button 
+              *ngIf="canEditOrDelete()"
+              icon="pi pi-trash" 
+              styleClass="p-button-outlined p-button-rounded p-button-danger p-button-sm" 
+              (onClick)="confirmDelete(product)"
+              pTooltip="Sil"
+              tooltipPosition="top"
+            ></p-button>
+            <p-button 
+              *ngIf="canAddToCart()"
+              icon="pi pi-shopping-cart" 
+              styleClass="p-button-outlined p-button-rounded p-button-primary p-button-sm" 
+              (onClick)="addToCart(product)"
+              pTooltip="Sepete Ekle"
+              tooltipPosition="top"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center p-4">
+          <div *ngIf="loading">Ürünler yükleniyor...</div>
+          <div *ngIf="!loading">Ürün bulunamadı.</div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div> 

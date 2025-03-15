@@ -1,0 +1,48 @@
+<div class="min-h-screen flex flex-col w-full">
+  <!-- Topbar -->
+  <div class="shadow-md bg-white w-full">
+    <div class="container mx-auto px-2 py-2 flex justify-between items-center">
+      <div class="custom-nav">
+        <ul class="nav-list">
+          <li class="nav-item" *ngFor="let item of menuItems">
+            <a [routerLink]="item.routerLink" 
+               routerLinkActive="active" 
+               [routerLinkActiveOptions]="{exact: false}" 
+               class="nav-link">
+              <i [class]="item.icon"></i>
+              <span>{{item.label}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="flex items-center gap-4">
+        <!-- Sepet butonu - Sadece Customer için göster -->
+        <button 
+          *ngIf="authService.isCustomer()"
+          pButton 
+          icon="pi pi-shopping-cart" 
+          class="p-button-text p-button-rounded" 
+          (click)="goToCart()"
+          pBadge 
+          [value]="cartItemCount > 0 ? cartItemCount.toString() : ''"
+          severity="danger"
+          pTooltip="Sepeti Görüntüle"
+          tooltipPosition="bottom"
+        ></button>
+        <p-button 
+          icon="pi pi-sign-out" 
+          label="Çıkış Yap" 
+          styleClass="p-button-text logout-button" 
+          (onClick)="logout()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-grow w-full">
+    <div class="container mx-auto px-2 py-2 w-full">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div> 

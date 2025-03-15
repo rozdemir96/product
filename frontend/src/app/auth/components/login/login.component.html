@@ -1,0 +1,59 @@
+<div class="login-container">
+  <p-toast></p-toast>
+  
+  <div class="login-card">
+    <h2>Giriş</h2>
+    <p>Tekrar hoş geldiniz! Lütfen bilgilerinizi girin.</p>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="username">Kullanıcı Adı</label>
+        <div class="input-container">
+          <i class="pi pi-user"></i>
+          <input 
+            id="username" 
+            type="text" 
+            pInputText 
+            formControlName="username" 
+            placeholder="Kullanıcı adınızı girin"
+          />
+        </div>
+        <small 
+          *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" 
+          class="error-message"
+        >
+          Kullanıcı adı gereklidir
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Şifre</label>
+        <div class="input-container">
+          <i class="pi pi-lock"></i>
+          <input 
+            id="password" 
+            type="password" 
+            pInputText 
+            formControlName="password" 
+            placeholder="Şifrenizi girin"
+          />
+        </div>
+        <small 
+          *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+          class="error-message"
+        >
+          Şifre gereklidir (en az 6 karakter)
+        </small>
+      </div>
+
+      <div class="form-actions">
+        <input type="submit" value="Giriş Yap" class="login-button" [disabled]="loginForm.invalid">
+      </div>
+      
+      <div class="register-link">
+        <span>Hesabınız yok mu? </span>
+        <a (click)="navigateToRegister()">Kayıt Ol</a>
+      </div>
+    </form>
+  </div>
+</div> 

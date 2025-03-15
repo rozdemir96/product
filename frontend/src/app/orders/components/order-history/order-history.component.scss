@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  padding: 0.5rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.order-list {
+  margin-top: 1rem;
+}
+
+.order-header {
+  padding: 0.5rem 0;
+}
+
+.order-items {
+  margin-top: 1rem;
+}
+
+:host ::ng-deep {
+  .p-accordion {
+    .p-accordion-header {
+      .p-accordion-header-link {
+        font-weight: 600;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        
+        &:hover {
+          background-color: #e9ecef;
+        }
+      }
+    }
+    
+    .p-accordion-content {
+      padding: 1.25rem;
+    }
+  }
+  
+  .p-datatable-sm {
+    .p-datatable-thead > tr > th {
+      padding: 0.5rem 1rem;
+    }
+    
+    .p-datatable-tbody > tr > td {
+      padding: 0.5rem 1rem;
+    }
+  }
+} 

@@ -1,0 +1,105 @@
+<div class="card">
+  <p-toast></p-toast>
+  <p-confirmDialog [draggable]="false"></p-confirmDialog>
+  
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Alışveriş Sepeti</h2>
+    <div class="flex gap-2">
+      <p-button 
+        label="Alışverişe Devam Et" 
+        icon="pi pi-arrow-left" 
+        styleClass="p-button-outlined p-button-secondary" 
+        (onClick)="continueShopping()"
+      ></p-button>
+      <p-button 
+        label="Sepeti Temizle" 
+        icon="pi pi-trash" 
+        styleClass="p-button-outlined p-button-danger" 
+        (onClick)="clearCart()"
+        [disabled]="cartItems.length === 0"
+      ></p-button>
+    </div>
+  </div>
+
+  <div *ngIf="cartItems.length === 0" class="text-center p-8">
+    <i class="pi pi-shopping-cart text-6xl text-gray-300 mb-4"></i>
+    <h3 class="text-xl font-semibold mb-2">Sepetiniz boş</h3>
+    <p class="text-gray-500 mb-4">Ödeme işlemine devam etmek için sepetinize ürün ekleyin.</p>
+    <p-button 
+      label="Ürünlere Göz At" 
+      icon="pi pi-search" 
+      (onClick)="continueShopping()"
+    ></p-button>
+  </div>
+
+  <div *ngIf="cartItems.length > 0">
+    <p-table [value]="cartItems" styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Ürün</th>
+          <th style="width: 15%">Fiyat</th>
+          <th style="width: 15%">Miktar</th>
+          <th style="width: 15%">Toplam</th>
+          <th style="width: 10%">İşlemler</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>
+            <div class="flex items-center">
+              <span class="font-medium">{{ item.productName }}</span>
+            </div>
+          </td>
+          <td>{{ item.price }} ₺</td>
+          <td>
+            <p-inputNumber 
+              [(ngModel)]="item.quantity" 
+              [showButtons]="true" 
+              [min]="1" 
+              [max]="100"
+              (onInput)="updateQuantity(item, item.quantity)"
+              styleClass="w-full"
+            ></p-inputNumber>
+          </td>
+          <td>{{ item.totalPrice }} ₺</td>
+          <td>
+            <p-button 
+              icon="pi pi-trash" 
+              styleClass="p-button-rounded p-button-danger p-button-outlined p-button-sm" 
+              (onClick)="removeItem(item)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <div class="flex flex-col md:flex-row justify-between mt-6">
+      <div class="md:w-1/2 mb-4 md:mb-0">
+        <p-card header="Sipariş Özeti" styleClass="w-full">
+          <div class="flex justify-between mb-2">
+            <span>Ara Toplam:</span>
+            <span class="font-medium">{{ cartTotal }} ₺</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span>Kargo:</span>
+            <span class="font-medium">Ücretsiz</span>
+          </div>
+          <p-divider></p-divider>
+          <div class="flex justify-between">
+            <span class="text-lg font-bold">Toplam:</span>
+            <span class="text-lg font-bold">{{ cartTotal }} ₺</span>
+          </div>
+        </p-card>
+      </div>
+      
+      <div class="md:w-1/3 flex items-end">
+        <p-button 
+          label="Ödemeye Geç" 
+          icon="pi pi-check" 
+          styleClass="w-full" 
+          (onClick)="proceedToCheckout()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div> 

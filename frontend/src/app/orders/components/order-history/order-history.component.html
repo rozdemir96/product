@@ -1,0 +1,75 @@
+<div class="card">
+  <p-toast></p-toast>
+  
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Sipariş Geçmişim</h2>
+    <div class="flex gap-2">
+      <p-button 
+        label="Ürünlere Dön" 
+        icon="pi pi-arrow-left" 
+        styleClass="p-button-outlined"
+        (onClick)="goToProducts()"
+      ></p-button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="flex justify-center p-4">
+    <i class="pi pi-spin pi-spinner text-2xl"></i>
+  </div>
+
+  <div *ngIf="!loading && orders.length === 0" class="text-center p-4">
+    <p class="text-lg mb-4">Henüz hiç sipariş vermediniz.</p>
+    <p-button 
+      label="Alışverişe Başla" 
+      icon="pi pi-shopping-cart" 
+      (onClick)="goToProducts()"
+    ></p-button>
+  </div>
+
+  <div *ngIf="!loading && orders.length > 0" class="order-list">
+    <p-accordion [multiple]="true" expandIcon="pi pi-chevron-right">
+      <p-accordionTab *ngFor="let order of orders" [header]="'Sipariş #' + order.id">
+        <div class="order-header flex justify-between items-center mb-3">
+          <div>
+            <p class="text-lg font-medium">Sipariş Tarihi: {{ formatDate(order.orderDate) }}</p>
+            <p class="text-md">Toplam Tutar: {{ order.totalPrice.toFixed(2) }} ₺</p>
+          </div>
+          <div class="flex flex-col gap-2">
+            <p-tag 
+              [value]="getOrderStatusLabel(order.status)" 
+              [severity]="getOrderStatusSeverity(order.status)"
+            ></p-tag>
+            <p-tag 
+              [value]="getPaymentStatusLabel(order.paymentStatus)" 
+              [severity]="getPaymentStatusSeverity(order.paymentStatus)"
+            ></p-tag>
+          </div>
+        </div>
+        
+        <p-divider></p-divider>
+        
+        <div class="order-items">
+          <h3 class="text-lg font-medium mb-2">Sipariş Detayları</h3>
+          <p-table [value]="order.orderItems || []" styleClass="p-datatable-sm">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Ürün</th>
+                <th>Fiyat</th>
+                <th>Adet</th>
+                <th>Toplam</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.productName || 'Ürün #' + item.productId }}</td>
+                <td>{{ item.priceAtPurchase.toFixed(2) }} ₺</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ (item.priceAtPurchase * item.quantity).toFixed(2) }} ₺</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</div> 

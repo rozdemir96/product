@@ -1,0 +1,426 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+/* Global Styles */
+:root {
+  --primary-color-rgb: 59, 130, 246; /* RGB value for #3B82F6 */
+  --primary-hover-color: #2563eb;
+  --primary-active-color: #1d4ed8;
+  --primary-light-color: rgba(59, 130, 246, 0.1);
+  --primary-lighter-color: rgba(59, 130, 246, 0.05);
+  --text-dark-color: #1f2937;
+  --text-medium-color: #4b5563;
+  --text-light-color: #6b7280;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--surface-ground);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Ensure tables use full width */
+.p-datatable {
+  width: 100% !important;
+}
+
+.p-datatable-table {
+  width: 100% !important;
+}
+
+/* Ensure cards use full width */
+.p-card {
+  width: 100% !important;
+}
+
+/* Form Styles */
+.p-inputtext,
+.p-password,
+.p-dropdown {
+  width: 100%;
+  display: block;
+}
+
+.p-input-icon-left {
+  width: 100%;
+  
+  > i {
+    left: 0.75rem;
+  }
+  
+  > input {
+    padding-left: 2.5rem !important;
+  }
+}
+
+.p-password {
+  width: 100%;
+  
+  input {
+    width: 100%;
+    padding-left: 2.5rem !important;
+  }
+}
+
+.p-password-panel {
+  margin-top: 5px;
+}
+
+/* Custom Button Styles */
+.p-button {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:not(.p-button-outlined):not(.p-button-text):not(.p-button-link) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  &.p-button-sm {
+    font-size: 0.875rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  &.p-button-rounded {
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    
+    &.p-button-sm {
+      width: 2rem;
+      height: 2rem;
+    }
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  &.p-button-outlined {
+    background-color: transparent;
+    
+    &:hover {
+      background-color: rgba(var(--primary-color-rgb), 0.04);
+    }
+    
+    &.p-button-danger:hover {
+      background-color: rgba(var(--red-500), 0.04);
+    }
+    
+    &.p-button-success:hover {
+      background-color: rgba(var(--green-500), 0.04);
+    }
+    
+    &.p-button-info:hover {
+      background-color: rgba(var(--blue-500), 0.04);
+    }
+  }
+  
+  .p-button-icon {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+  }
+  
+  .p-button-icon-only .p-button-icon {
+    margin-right: 0;
+  }
+}
+
+/* Fix for icon alignment in buttons */
+.p-button .pi {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.p-button-icon-only .pi {
+  margin-right: 0;
+}
+
+/* Card Styles */
+.p-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+  
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.12);
+  }
+  
+  .p-card-title {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+  
+  .p-card-content {
+    padding: 1.25rem;
+  }
+}
+
+/* Table Styles */
+.p-datatable {
+  .p-datatable-header {
+    background-color: var(--surface-card);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .p-datatable-thead > tr > th {
+    background-color: var(--surface-section);
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  .p-datatable-tbody > tr {
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+  
+  .p-datatable-tbody > tr > td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+  }
+}
+
+/* Tag Styles */
+.p-tag {
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Toast Styles */
+.p-toast {
+  .p-toast-message {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    .p-toast-message-content {
+      padding: 1rem;
+      
+      .p-toast-summary {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* Fix for menubar */
+.p-menubar {
+  padding: 0.5rem;
+  border: none;
+  background-color: transparent;
+  
+  .p-menubar-root-list {
+    gap: 0.5rem;
+  }
+  
+  .p-menuitem-link {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+}
+
+/* Fix for product list page */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.ml-6 {
+  margin-left: 1.5rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.block {
+  display: block;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+/* Fix for action buttons in tables */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* Fix for badge positioning */
+.p-badge {
+  margin-left: -0.25rem;
+  margin-top: -0.25rem;
+}
+
+/* Fix for PrimeNG icons */
+.pi {
+  font-family: 'primeicons' !important;
+} 

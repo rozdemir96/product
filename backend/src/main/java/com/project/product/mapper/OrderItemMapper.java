@@ -17,6 +17,7 @@ public interface OrderItemMapper {
     OrderItem toEntity(OrderItemModel orderItemModel);
 
     @Mapping(target = "productId", source = "product.id") // Product -> productId
+    @Mapping(target = "productName", source = "product.name")
     OrderItemModel toModel(OrderItem orderItem);
 
     // **Liste dönüşümleri**

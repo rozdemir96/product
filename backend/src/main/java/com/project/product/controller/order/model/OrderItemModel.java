@@ -13,7 +13,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemModel extends BaseModel {
-    private Long productId; // Sipariş edilen ürün ID'si
-    private Integer quantity;   // Sipariş edilen ürün adeti
-    private BigDecimal priceAtPurchase; // Sipariş anındaki ürün fiyatı
+    private Long productId;
+    private String productName;
+    private Integer quantity;
+    private BigDecimal priceAtPurchase;
 }

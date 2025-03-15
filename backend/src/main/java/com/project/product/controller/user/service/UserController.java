@@ -49,7 +49,7 @@ public class UserController {
     /**
      * ID’ye göre kullanıcı getirme
      */
-    @GetMapping("/get{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<UserModel> getById(@PathVariable Long id) {
         return userService.getById(id)
                 .map(ResponseEntity::ok)
@@ -77,7 +77,7 @@ public class UserController {
     /**
      * Kullanıcıyı ID’ye göre silme
      */
-    @DeleteMapping("/delete{id}")
+    @DeleteMapping("/deletel/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();

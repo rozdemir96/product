@@ -43,6 +43,10 @@ public class LoginController {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
+            if (!user.getEnabled()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            }
+
             if (passwordEncoder.matches(loginRequestModel.getPassword(), user.getPassword())) {
                 String accessToken = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
                 return ResponseEntity.ok(new LoginResponseModel(accessToken));

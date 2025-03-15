@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-10T00:23:04+0300",
+    date = "2025-03-13T21:02:43+0300",
     comments = "version: 1.6.3, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.12.1.jar, environment: Java 21.0.5 (Oracle Corporation)"
 )
 @Component
@@ -49,6 +49,7 @@ public class OrderItemMapperImpl implements OrderItemMapper {
         OrderItemModel orderItemModel = new OrderItemModel();
 
         orderItemModel.setProductId( orderItemProductId( orderItem ) );
+        orderItemModel.setProductName( orderItemProductName( orderItem ) );
         orderItemModel.setId( orderItem.getId() );
         orderItemModel.setCreatedUserId( orderItem.getCreatedUserId() );
         orderItemModel.setUpdatedUserId( orderItem.getUpdatedUserId() );
@@ -96,5 +97,13 @@ public class OrderItemMapperImpl implements OrderItemMapper {
             return null;
         }
         return product.getId();
+    }
+
+    private String orderItemProductName(OrderItem orderItem) {
+        Product product = orderItem.getProduct();
+        if ( product == null ) {
+            return null;
+        }
+        return product.getName();
     }
 }

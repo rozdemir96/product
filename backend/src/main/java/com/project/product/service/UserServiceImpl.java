@@ -71,6 +71,13 @@ public class UserServiceImpl implements UserService {
         User existingUser = userRepository.findById(userModel.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (userModel.getPassword() != null && !userModel.getPassword().isBlank() &&
+                !passwordEncoder.matches(passwordEncoder.encode(userModel.getPassword()), existingUser.getPassword())) {
+            userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
+        } else {
+            userModel.setPassword(existingUser.getPassword());
+        }
+
         userMapper.updateUserFromModel(userModel, existingUser);
 
         return userMapper.toModel(userRepository.save(existingUser));

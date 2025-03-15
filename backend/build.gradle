@@ -19,6 +19,10 @@ configurations {
 	}
 }
 
+bootBuildImage {
+	imageName = "product-backend:latest"
+}
+
 repositories {
 	mavenCentral()
 }

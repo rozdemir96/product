@@ -1,0 +1,157 @@
+.user-management-container {
+  padding: 1.5rem;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    
+    h1 {
+      margin: 0;
+      color: var(--text-dark-color, #1f2937);
+    }
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-block;
+    
+    &.status-active {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+    
+    &.status-inactive {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .mr-2 {
+    margin-right: 0.5rem;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  // Form stilleri
+  .field {
+    margin-bottom: 1.5rem;
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-dark-color, #1f2937);
+    }
+    
+    input, p-dropdown {
+      width: 100%;
+    }
+    
+    .p-error {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: block;
+    }
+  }
+  
+  // Şifre alanı için özel stiller
+  .password-field {
+    margin-bottom: 2rem;
+    
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      .password-label-hint {
+        font-size: 0.75rem;
+        font-weight: normal;
+        color: #ef4444;
+      }
+    }
+    
+    .p-inputgroup {
+      display: flex;
+      
+      .p-inputgroup-addon {
+        background-color: #f3f4f6;
+        border-color: #d1d5db;
+        color: #6b7280;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: #e5e7eb;
+        }
+        
+        .pi-info-circle {
+          color: #3b82f6;
+        }
+      }
+    }
+    
+    .password-hint {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      background-color: rgba(59, 130, 246, 0.05);
+      border-radius: 0.375rem;
+      border-left: 3px solid #3b82f6;
+      
+      i {
+        color: #3b82f6;
+        font-size: 1rem;
+      }
+      
+      span {
+        font-size: 0.875rem;
+        color: var(--text-medium-color, #4b5563);
+        line-height: 1.4;
+      }
+    }
+    
+    // Geçersiz şifre için özel stil
+    input.ng-invalid.ng-dirty {
+      border-color: #ef4444 !important;
+      background-color: rgba(239, 68, 68, 0.05) !important;
+    }
+  }
+  
+  .field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    
+    label {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Duyarlı tasarım ayarlamaları
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+} 

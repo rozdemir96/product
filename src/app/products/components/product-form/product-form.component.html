@@ -1,0 +1,133 @@
+<div class="card">
+  <p-toast></p-toast>
+  
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">{{ isEditMode ? 'Ürün Düzenle' : 'Yeni Ürün Oluştur' }}</h2>
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Name -->
+      <div class="field">
+        <label for="name" class="block mb-2 font-medium">Ürün Adı</label>
+        <span class="w-full">
+          <input 
+            id="name" 
+            type="text" 
+            pInputText 
+            formControlName="name" 
+            placeholder="Ürün adını girin"
+            class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': productForm.get('name')?.invalid && productForm.get('name')?.touched}"
+          />
+        </span>
+        <small 
+          *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" 
+          class="text-red-500 text-sm mt-1 block"
+        >
+          Ürün adı gereklidir
+        </small>
+      </div>
+
+      <!-- Type -->
+      <div class="field">
+        <label for="type" class="block mb-2 font-medium">Ürün Türü</label>
+        <p-dropdown
+          id="type"
+          formControlName="type"
+          [options]="productTypes"
+          placeholder="Bir ürün türü seçin"
+          styleClass="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': productForm.get('type')?.invalid && productForm.get('type')?.touched}"
+        ></p-dropdown>
+        <small 
+          *ngIf="productForm.get('type')?.invalid && productForm.get('type')?.touched" 
+          class="text-red-500 text-sm mt-1 block"
+        >
+          Ürün türü gereklidir
+        </small>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="field mb-4">
+      <label for="description" class="block mb-2 font-medium">Açıklama</label>
+      <textarea 
+        id="description" 
+        formControlName="description" 
+        placeholder="Ürün açıklamasını girin"
+        class="w-full p-inputtext"
+        rows="4"
+        [ngClass]="{'ng-invalid ng-dirty': productForm.get('description')?.invalid && productForm.get('description')?.touched}"
+      ></textarea>
+      <small 
+        *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" 
+        class="text-red-500 text-sm mt-1 block"
+      >
+        Ürün açıklaması gereklidir
+      </small>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Price -->
+      <div class="field">
+        <label for="price" class="block mb-2 font-medium">Fiyat</label>
+        <p-inputNumber 
+          id="price" 
+          formControlName="price" 
+          placeholder="0.00" 
+          mode="currency" 
+          currency="TRY"
+          locale="tr-TR"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+          styleClass="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': productForm.get('price')?.invalid && productForm.get('price')?.touched}"
+        ></p-inputNumber>
+        <small 
+          *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" 
+          class="text-red-500 text-sm mt-1 block"
+        >
+          <span *ngIf="productForm.get('price')?.errors?.['required']">Fiyat gereklidir</span>
+          <span *ngIf="productForm.get('price')?.errors?.['min']">Fiyat 0'a eşit veya daha büyük olmalıdır</span>
+        </small>
+      </div>
+
+      <!-- Stock -->
+      <div class="field">
+        <label for="stock" class="block mb-2 font-medium">Stok</label>
+        <p-inputNumber 
+          id="stock" 
+          formControlName="stock" 
+          placeholder="0" 
+          [showButtons]="true"
+          [min]="0"
+          styleClass="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': productForm.get('stock')?.invalid && productForm.get('stock')?.touched}"
+        ></p-inputNumber>
+        <small 
+          *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched" 
+          class="text-red-500 text-sm mt-1 block"
+        >
+          <span *ngIf="productForm.get('stock')?.errors?.['required']">Stok gereklidir</span>
+          <span *ngIf="productForm.get('stock')?.errors?.['min']">Stok 0'a eşit veya daha büyük olmalıdır</span>
+        </small>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-6">
+      <p-button 
+        label="İptal" 
+        styleClass="p-button-secondary" 
+        type="button"
+        (onClick)="cancel()"
+      ></p-button>
+      <p-button 
+        label="{{ isEditMode ? 'Güncelle' : 'Oluştur' }}" 
+        type="submit" 
+        [loading]="submitting"
+        [disabled]="productForm.invalid || submitting"
+      ></p-button>
+    </div>
+  </form>
+</div> 

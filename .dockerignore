@@ -1,0 +1,33 @@
+# Node.js
+node_modules
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# Angular
+/dist
+/.angular
+
+# Git
+.git
+.gitignore
+
+# IDE
+/.idea
+/.vscode
+*.swp
+*.swo
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Tests
+/coverage
+/e2e
+*.spec.ts 

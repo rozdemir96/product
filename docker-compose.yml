@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  # Angular Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-ui
+    ports:
+      - "4200:80"
+    networks:
+      product-net:
+        ipv4_address: 162.25.0.20
+    restart: unless-stopped
+
+networks:
+  product-net:
+    external: true 

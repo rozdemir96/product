@@ -1,0 +1,222 @@
+<div class="user-management-container">
+  <div class="header">
+    <h1>Kullanıcı Yönetimi</h1>
+    <button pButton pRipple label="Yeni Kullanıcı Ekle" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+  </div>
+
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+  <p-table 
+    [value]="users" 
+    [paginator]="true" 
+    [rows]="10" 
+    [showCurrentPageReport]="true"
+    [loading]="loading"
+    currentPageReportTemplate="Toplam {totalRecords} kullanıcıdan {first} ile {last} arası gösteriliyor"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    styleClass="p-datatable-gridlines">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Kullanıcı Adı</th>
+        <th>Ad</th>
+        <th>Soyad</th>
+        <th>E-posta</th>
+        <th>Telefon</th>
+        <th>Rol</th>
+        <th>Durum</th>
+        <th>İşlemler</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.mobilePhone}}</td>
+        <td>{{getRoleName(user.role)}}</td>
+        <td>
+          <span [class]="user.enabled ? 'status-badge status-active' : 'status-badge status-inactive'">
+            {{user.enabled ? 'Aktif' : 'Pasif'}}
+          </span>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteUser(user)"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9" class="text-center">Kullanıcı bulunamadı</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Kullanıcı Düzenleme Dialog -->
+  <p-dialog [(visible)]="userDialog" [style]="{width: '500px'}" header="Kullanıcı Düzenle" [modal]="true" styleClass="p-fluid">
+    <form [formGroup]="userForm">
+      <div class="field">
+        <label for="name">Ad</label>
+        <input type="text" pInputText id="name" formControlName="name" required />
+        <small class="p-error" *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">Ad gereklidir.</small>
+      </div>
+      
+      <div class="field">
+        <label for="surname">Soyad</label>
+        <input type="text" pInputText id="surname" formControlName="surname" required />
+        <small class="p-error" *ngIf="userForm.get('surname')?.invalid && userForm.get('surname')?.touched">Soyad gereklidir.</small>
+      </div>
+      
+      <div class="field">
+        <label for="email">E-posta</label>
+        <input type="email" pInputText id="email" formControlName="email" required />
+        <small class="p-error" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+          Geçerli bir e-posta adresi giriniz.
+        </small>
+      </div>
+      
+      <div class="field">
+        <label for="mobilePhone">Telefon</label>
+        <input type="text" pInputText id="mobilePhone" formControlName="mobilePhone" required />
+        <small class="p-error" *ngIf="userForm.get('mobilePhone')?.invalid && userForm.get('mobilePhone')?.touched">
+          Telefon numarası gereklidir.
+        </small>
+      </div>
+      
+      <div class="field">
+        <label for="address">Adres</label>
+        <input type="text" pInputText id="address" formControlName="address" />
+      </div>
+      
+      <div class="field">
+        <label for="username">Kullanıcı Adı</label>
+        <input type="text" pInputText id="username" formControlName="username" required />
+        <small class="p-error" *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+          Kullanıcı adı gereklidir.
+        </small>
+      </div>
+      
+      <div class="field">
+        <label for="role">Rol</label>
+        <p-dropdown id="role" [options]="roles" formControlName="role" optionLabel="label" optionValue="value"></p-dropdown>
+        <small class="p-error" *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched">
+          Rol seçimi gereklidir.
+        </small>
+      </div>
+      
+      <div class="field-checkbox">
+        <p-checkbox [binary]="true" formControlName="enabled" inputId="enabled"></p-checkbox>
+        <label for="enabled">Aktif</label>
+      </div>
+    </form>
+    
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="İptal" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Kaydet" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Yeni Kullanıcı Ekleme Dialog -->
+  <p-dialog [(visible)]="newEmployeeDialog" [style]="{width: '500px'}" header="Yeni Kullanıcı Ekle" [modal]="true" styleClass="p-fluid">
+    <form [formGroup]="employeeForm">
+      <div class="field">
+        <label for="emp-name">Ad</label>
+        <input type="text" pInputText id="emp-name" formControlName="name" required />
+        <small class="p-error" *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">Ad gereklidir.</small>
+      </div>
+      
+      <div class="field">
+        <label for="emp-surname">Soyad</label>
+        <input type="text" pInputText id="emp-surname" formControlName="surname" required />
+        <small class="p-error" *ngIf="employeeForm.get('surname')?.invalid && employeeForm.get('surname')?.touched">Soyad gereklidir.</small>
+      </div>
+      
+      <div class="field">
+        <label for="emp-email">E-posta</label>
+        <input type="email" pInputText id="emp-email" formControlName="email" required />
+        <small class="p-error" *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched">
+          Geçerli bir e-posta adresi giriniz.
+        </small>
+      </div>
+      
+      <div class="field">
+        <label for="emp-mobilePhone">Telefon</label>
+        <input type="text" pInputText id="emp-mobilePhone" formControlName="mobilePhone" required />
+        <small class="p-error" *ngIf="employeeForm.get('mobilePhone')?.invalid && employeeForm.get('mobilePhone')?.touched">
+          Telefon numarası gereklidir.
+        </small>
+      </div>
+      
+      <div class="field">
+        <label for="emp-address">Adres</label>
+        <input type="text" pInputText id="emp-address" formControlName="address" />
+      </div>
+      
+      <div class="field">
+        <label for="emp-username">Kullanıcı Adı</label>
+        <input type="text" pInputText id="emp-username" formControlName="username" required />
+        <small class="p-error" *ngIf="employeeForm.get('username')?.invalid && employeeForm.get('username')?.touched">
+          Kullanıcı adı gereklidir.
+        </small>
+      </div>
+      
+      <div class="field password-field">
+        <label for="emp-password">
+          <span>Şifre</span>
+          <span class="password-label-hint">* Sadece harf ve rakam kullanılabilir</span>
+        </label>
+        <div class="p-inputgroup">
+          <input 
+            type="password" 
+            pInputText 
+            id="emp-password" 
+            formControlName="password" 
+            required 
+            pTooltip="{{passwordTooltip}}" 
+            tooltipPosition="top"
+            [ngClass]="{'ng-invalid ng-dirty': employeeForm.get('password')?.errors?.['invalidPassword']}" />
+          <span class="p-inputgroup-addon password-info">
+            <i class="pi pi-info-circle" pTooltip="{{passwordTooltip}}" tooltipPosition="top"></i>
+          </span>
+        </div>
+        <small class="p-error" *ngIf="employeeForm.get('password')?.errors?.['required'] && employeeForm.get('password')?.touched">
+          Şifre gereklidir.
+        </small>
+        <small class="p-error" *ngIf="employeeForm.get('password')?.errors?.['invalidPassword'] && employeeForm.get('password')?.touched">
+          Şifre sadece harf ve rakam içerebilir.
+        </small>
+        <div class="password-hint">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Şifre sadece harf ve rakam içerebilir. Boşluk, özel karakter ve Unicode karakterleri kullanılamaz.</span>
+        </div>
+      </div>
+      
+      <div class="field">
+        <label for="emp-role">Rol</label>
+        <p-dropdown id="emp-role" [options]="roles" formControlName="role" optionLabel="label" optionValue="value"></p-dropdown>
+        <small class="p-error" *ngIf="employeeForm.get('role')?.invalid && employeeForm.get('role')?.touched">
+          Rol seçimi gereklidir.
+        </small>
+      </div>
+      
+      <div class="field-checkbox">
+        <p-checkbox [binary]="true" formControlName="enabled" inputId="emp-enabled"></p-checkbox>
+        <label for="emp-enabled">Aktif</label>
+      </div>
+    </form>
+    
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="İptal" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Kaydet" icon="pi pi-check" class="p-button-text" (click)="saveEmployee()"></button>
+    </ng-template>
+  </p-dialog>
+</div> 

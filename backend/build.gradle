@@ -20,7 +20,7 @@ configurations {
 }
 
 bootBuildImage {
-	imageName = "product-backend:latest"
+	imageName = "backend:latest"
 }
 
 repositories {

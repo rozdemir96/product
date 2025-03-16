@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  APP_LOAD_TEST_DATA: "true"
+  SPRING_LIQUIBASE_ENABLED: "true" 
